@@ -1,0 +1,6 @@
+textarea { width: 100%; box-sizing: border-box; }
+.error { color: #f00; }
+.content { max-width: 800px; margin: 0 auto; }
+.question { margin-bottom: 1.5em; }
+.question-label { margin-top: 1.5em; margin-bottom: 0; }
+.selectable-option + .question { margin-top: 1.5em; }
