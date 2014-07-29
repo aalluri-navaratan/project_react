@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src=" http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+     <script src="http://path/to/react-bootstrap-bower/react-bootstrap.min.js"></script>
+  <style>
+        body{margin: 25px;}
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var TodoListItem = React.createClass({
+    render: function () {
+        return <li>{this.props.todo.text}</li>;
+    }
+});
+ 
+var TodoList = React.createClass({
+    getInitialState: function () {
+        // @TODO: Listen for changes on the underlying model and call 
+                 // this.setState({ todos: updatedTodos }) 
+        //        every time there is a change.
+        
+        return { todos: [{ text: 'Dishes!', dueDate: new Date() }] };
+    },
+ 
+    render: function () {
+        var todos = this.state.todos.map(function (todo) {
+            return <TodoListItem todo={todo} />;
+        });
+ 
+        return <ul>{todos}</ul>;
+    }
+});
+ 
+React.renderComponent(<TodoList />, document.body);
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BootstrapModalMixin for React components</title>
+    <script src="http://fb.me/react-0.8.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>BootstrapModalMixin for <a href="http://facebook.github.io/react/">React components</a></h1>
+        <p>A <a href="http://facebook.github.io/react/docs/reusable-components.html">mixin for components</a> which act as <a href="http://getbootstrap.com/javascript/#modals">Bootstrap modals</a>, providing:</p>
+        <ul>
+          <li>Registration of the component as a modal at the appropriate point in the component lifecycle
+            <ul>
+              <li>Components are responsible for providing full modal contents in their own <code>render</code> method</lI>
+            </ul>
+          </li>
+          <li>Properties for modal configuration, with default values as per Bootstrap's defaults
+            <ul>
+              <li><code>backdrop</code></li>
+              <li><code>keyboard</code></li>
+              <li><code>show</code></li>
+              <li><code>remote</code></li>
+            </ul>
+          </li>
+          <li>Registration and removal of event handlers with React-style naming conventions when any of the following properties are part of the modal component's prototype or are passed in as component props (in that order)
+            <ul>
+              <li><code>handleShow</code></li>
+              <li><code>handleShown</code></li>
+              <li><code>handleHide</code></li>
+              <li><code>handleHidden</code></li>
+            </ul>
+          </li>
+          <li>A convenience method for rendering a <span style="font-size: 21px">&times;</span> close button: <code>renderCloseButton()</code></li>
+        </ul>
+      </div>
+      <div id="example"></div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Code</h3>
+        </div>
+        <div class="panel-body">
+          <script src="8449696.js"></script>
+        </div>
+      </div>
+    </div>
+    <script type="text/jsx" src="BootstrapModalMixin.js"></script>
+    <script type="text/jsx" src="example.js"></script>
+  </body>
+</html>

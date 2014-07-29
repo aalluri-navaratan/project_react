@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Render Method Gotchas</title>
+    <script src="http://fb.me/react-0.11.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/JSXTransformer.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react-with-addons.js"></script>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var GroceryList = React.createClass({
+  handleClick: function(i) {
+    console.log('You clicked: ' + this.props.items[i]);
+  },
+  render: function() {
+    return (
+      <div>
+        {this.props.items.map(function(item, i) {
+          return (
+            <span onClick={this.handleClick.bind(this, i)} key={i}>{item}</span>
+          );
+        }, this)}
+      </div>
+    );
+  }
+});
+React.renderComponent(
+  <GroceryList items={['Apple', 'Banana', 'Cranberry']} />,document.body
+);
+</script>
+</body>
+</html>
+
