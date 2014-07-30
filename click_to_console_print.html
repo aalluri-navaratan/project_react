@@ -22,7 +22,7 @@ var GroceryList = React.createClass({
       <div>
         {this.props.items.map(function(item, i) {
           return (
-            <span onClick={this.handleClick.bind(this, i)} key={i}>{item}</span>
+            <span class="btn btn-danger" onClick={this.handleClick.bind(this, i)} key={i}>{item}</span>
           );
         }, this)}
       </div>

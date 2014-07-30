@@ -24,7 +24,6 @@ var TodoListItem = React.createClass({
         return <li>{this.props.todo.text}</li>;
     }
 });
- 
 var TodoList = React.createClass({
     getInitialState: function () {
         // @TODO: Listen for changes on the underlying model and call 
@@ -33,7 +32,6 @@ var TodoList = React.createClass({
         
         return { todos: [{ text: 'Dishes!', dueDate: new Date() }] };
     },
- 
     render: function () {
         var todos = this.state.todos.map(function (todo) {
             return <TodoListItem todo={todo} />;
@@ -42,7 +40,6 @@ var TodoList = React.createClass({
         return <ul>{todos}</ul>;
     }
 });
- 
 React.renderComponent(<TodoList />, document.body);
 </script>
 </body>

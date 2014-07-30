@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Render Method Gotchas</title>
+    <script src="http://fb.me/react-0.11.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/JSXTransformer.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react-with-addons.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var Inputs = React.createClass({
+    render: function () {
+        var items = [];
+        var inputs;
+        for (var i = 0; i < this.props.count; i++) {
+            items.push( <input type="text" className="btn btn-primary" name={[i]} />);
+            items.push(<br />);
+        }
+        return ( 
+            <div className = "col-md-9"> 
+                <form action = "/" method = "post" name = "form1"> 
+                    {items} 
+                    <input type="submit"  className="btn btn-success" value = "Submit Form" />            
+                </form>
+            </div> 
+       );
+    }
+});
+var Add = React.createClass({
+    render: function () {
+        return (<input type = "button" className="btn btn-primary" value="Add an Input" onClick={this.props.fnClick}/> );
+  }
+});
+var Parent = React.createClass({
+    getInitialState: function(){
+        return {count:1}
+    },
+    addInput: function(){
+        var newCount = this.state.count + 1;
+        this.setState({count: newCount});
+    },
+    render: function(){
+        return (
+            <div>
+                <Inputs count={this.state.count}></Inputs>
+                <Add fnClick={this.addInput}/>
+            </div>
+        );
+    }
+});
+React.renderComponent(<Parent></Parent>, document.body);
+</script>
+</html>

@@ -10,6 +10,12 @@
     <script src="http://cdn.bootcss.com/react/0.11.0/react.js"></script>
     <script src="http://cdn.bootcss.com/react/0.11.0/JSXTransformer.js"></script>
     <script src="http://cdn.bootcss.com/react/0.11.0/react-with-addons.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <script type="text/jsx">
@@ -23,7 +29,7 @@ var ProductRow = React.createClass({
     render: function() {
         var name = this.props.product.stocked ?
             this.props.product.name :
-            <span style={{color: 'red'}}>{this.props.product.name}</span>;
+            <span  className="glyphicon glyphicon-star" style={{color: 'red'}}>{this.props.product.name}</span>;
         return (
             <tr>
                 <td>{name}</td>
