@@ -16,16 +16,14 @@
     /*** @jsx React.DOM */
 var ProductCategoryRow = React.createClass({
     render: function() {
-        return (<tr><th colSpan="2">{this.props.category}</th></tr>);
+        return (<tr><th colSpan="100">{this.props.category}</th></tr>);
     }
 });
 var ProductRow = React.createClass({
     render: function() {
         var name = this.props.product.stocked ?
             this.props.product.name :
-            <span style={{color: 'red'}}>
-                {this.props.product.name}
-            </span>;
+            <span style={{color: 'red'}}>{this.props.product.name}</span>;
         return (
             <tr>
                 <td>{name}</td>
@@ -40,12 +38,10 @@ var ProductTable = React.createClass({
         var rows = [];
         var lastCategory = null;
         this.props.products.forEach(function(product) {
-            if (product.name.indexOf(this.props.filterText) === -1 || (!product.stocked && this.props.inStockOnly)) {
+            if (product.name.indexOf(this.props.filterText) === -1 || (!product.stocked && this.props.inStockOnly)) 
                 return;
-            }
-            if (product.category !== lastCategory) {
+            if (product.category !== lastCategory) 
                 rows.push(<ProductCategoryRow category={product.category} key={product.category} />);
-            }
             rows.push(<ProductRow product={product} key={product.name} />);
             lastCategory = product.category;
         }.bind(this));
@@ -54,7 +50,7 @@ var ProductTable = React.createClass({
                 <thead>
                     <tr>
                         <th style={{color:'green'}}>Name</th>
-                        <th style={{color:'green'}}>Price</th>
+                        <th style={{color:'blue'}}>Price</th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -64,10 +60,7 @@ var ProductTable = React.createClass({
 });
 var SearchBar = React.createClass({
     handleChange: function() {
-        this.props.onUserInput(
-            this.refs.filterTextInput.getDOMNode().value,
-            this.refs.inStockOnlyInput.getDOMNode().checked
-        );
+      this.props.onUserInput(this.refs.filterTextInput.getDOMNode().value,this.refs.inStockOnlyInput.getDOMNode().checked);
     },
     render: function() {
         return (
@@ -119,8 +112,6 @@ var FilterableProductTable = React.createClass({
         );
     }
 });
-
-
 var PRODUCTS = [
   {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
   {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
