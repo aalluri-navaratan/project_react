@@ -39,7 +39,8 @@ var Box = React.createClass({
     return (
       <div className="box">
         <h2 onClick={this.toggleVisible}>{this.props.header}</h2>
-        {this.state.visible ? <div className="content">{this.props.children} and {this.props.count = this.props.count + 1 }</div> : null}
+        {this.state.visible ? <div className="content">
+        {this.props.children} and {this.props.count = this.props.count + 1 }</div> : null}
       </div>
     );
   }

@@ -8,7 +8,6 @@
  *  https://github.com/facebook/react/blob/0.11-stable/src/vendor/stubs/cx.js
  *
  */
-
 /**
  * This function is used to mark string literals representing CSS class names
  * so that they can be transformed statically. This allows for modularization
@@ -33,5 +32,4 @@ function cx(classNames) {
     return Array.prototype.join.call(arguments, ' ');
   }
 }
-
 module.exports = cx;

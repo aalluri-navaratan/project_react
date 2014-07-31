@@ -22,29 +22,23 @@
     /** @jsx React.DOM */
     var APP = 
         React.createClass({
-            mouseOverHandle: function(e)
-            {
+            mouseOverHandle: function(e){
                 alert("Danger");
-                
             },
             render:function(){
                 return (
                     <div>
-                    <h1>hai</h1>
-                    <input type='button' className="btn btn-danger" onMouseUp={this.mouseOverHandle} value='click'/>
-                    
-                    <div className="input-group">
-                        <span className="input-group-addon"> <input type="radio"/></span>
-                        <input type="text" className="form-control" placeholder="Username"/>
+                        <input type='button' className="btn btn-danger" onMouseUp={this.mouseOverHandle} value='click'/>
+                        <div className="input-group">
+                            <span className="input-group-addon"> <input type="radio"/></span>
+                            <input type="text" className="form-control" placeholder="Username"/>
+                        </div>
+                        <div className="input-group">
+                            <span className="input-group-addon">Go!</span>
+                            <input type="text" className="form-control" placeholder="Username"/>
+                        </div>
                     </div>
-                    <div className="input-group">
-                        <span className="input-group-addon">Go!</span>
-                        <input type="text" className="form-control" placeholder="Username"/>
-                    </div>
-
-
-                    </div>
-                    )
+                )
             }
         });
     React.renderComponent(<APP />,document.body)
