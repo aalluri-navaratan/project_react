@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src="http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+     <script src="http://path/to/react-bootstrap-bower/react-bootstrap.min.js"></script>
+  <style>
+        body{margin: 25px;}
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var Simple = React.createClass({
+  getInitialState: function(){
+    return { count: 0 };
+  },
+  handleMouseDown: function(){
+    this.setState({ count: this.state.count + 1},alert('I was told: ' + this.props.message));
+  },
+  render: function(){
+    return <div>
+      <div className="clicker" onMouseDown={this.handleMouseDown}>
+        <b>Give me the message!</b>
+      </div>
+      <div className="message">Message conveyed
+        <span className="count">  {this.state.count}</span> time(s)</div>
+    </div>
+    ;
+  }
+});
+React.renderComponent(<Simple message="Keep it Simple"/>,document.body);
+</script>
+</body>
+</html>

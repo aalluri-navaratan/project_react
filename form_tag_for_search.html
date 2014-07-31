@@ -103,17 +103,23 @@ var FilterableProductTable = React.createClass({
     },
     render: function() {
         return (
-            <div>
-                <SearchBar
-                    filterText={this.state.filterText}
-                    inStockOnly={this.state.inStockOnly}
-                    onUserInput={this.handleUserInput}
-                />
-                <ProductTable
-                    products={this.props.products}
-                    filterText={this.state.filterText}
-                    inStockOnly={this.state.inStockOnly}
-                />
+            <div className='col'>
+                <div className='col-md-3'>
+                    <div className='col-md-8'>
+                    <div style={{ color: 'blue', background : 'pink'}}>
+                        <SearchBar
+                            filterText={this.state.filterText}
+                            inStockOnly={this.state.inStockOnly}
+                            onUserInput={this.handleUserInput}
+                        />
+                        <ProductTable
+                            products={this.props.products}
+                            filterText={this.state.filterText}
+                            inStockOnly={this.state.inStockOnly}
+                        />
+                    </div>
+                    </div>
+                </div>
             </div>
         );
     }

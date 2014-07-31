@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src=" http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <style>
+        body{margin: 25px;}
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+    /** @jsx React.DOM */
+    var APP = 
+        React.createClass({
+            mouseOverHandle: function(e)
+            {
+                alert("Danger");
+                
+            },
+            render:function(){
+                return (
+                    <div>
+                    <h1>hai</h1>
+                    <input type='button' className="btn btn-danger" onMouseUp={this.mouseOverHandle} value='click'/>
+                    
+                    <div className="input-group">
+                        <span className="input-group-addon"> <input type="radio"/></span>
+                        <input type="text" className="form-control" placeholder="Username"/>
+                    </div>
+                    <div className="input-group">
+                        <span className="input-group-addon">Go!</span>
+                        <input type="text" className="form-control" placeholder="Username"/>
+                    </div>
+
+
+                    </div>
+                    )
+            }
+        });
+    React.renderComponent(<APP />,document.body)
+</script>
+</body>
+</html>

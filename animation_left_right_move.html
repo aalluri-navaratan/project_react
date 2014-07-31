@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src="http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+     <script src="http://path/to/react-bootstrap-bower/react-bootstrap.min.js"></script>
+  <style>
+        body{margin: 25px;}
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+function animate(duration, onStep) {
+    var start = Date.now();
+    var timer = {id: 0};
+    (function loop() {
+        timer.id = requestAnimationFrame(function() {
+            var diff = Date.now() - start;
+            var fraction = diff / duration;
+            onStep(fraction);
+            if (diff < duration) {
+                loop();
+            }
+        });
+    })();
+    return timer;
+}
+function lerp(low, high, fraction) {
+    return low + (high - low) * fraction;
+}
+var App = React.createClass({
+    getInitialState: function() {
+        return {current: 0}
+    },
+
+    move: function(i) {
+        this.setState({current: this.state.current + i * 100});
+    },
+
+    render: function() {
+        return <div className="ShowerItem">
+            <p>
+                <button onClick={this.move.bind(this, -1)}>Left</button>
+                <button onClick={this.move.bind(this, 1)}>Right</button>
+            </p>
+            <svg><Dot current={this.state.current}/></svg>
+        </div>;
+    }
+});
+var Dot = React.createClass({
+    getInitialState: function() {
+        return {
+            current: 0,
+            future: 0
+        };
+    },
+    timer: null,
+    render: function() {
+        var from = this.state.current;
+        var to = this.props.current;
+        if (to !== this.state.future) {
+            this.state.future = to;
+            if (this.timer) {
+                cancelAnimationFrame(this.timer.id);
+            }
+            this.timer = animate(500, function(fraction) {
+                var current = lerp(from, to, fraction);
+                if (fraction >= 1) {
+                    this.setState({
+                        value: to
+                    });
+                    this.timer = null;
+                } else {
+                    this.setState({current: current});
+                }
+            }.bind(this))
+        }
+        return <circle r="10" cy="10" cx={this.state.current + 10}/>
+    }
+});
+React.renderComponent(<App/>,document.body);
+</script>
+</body>
+</html>

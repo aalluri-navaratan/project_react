@@ -112,10 +112,7 @@ var Input = React.createClass({
       'glyphicon-warning-sign': this.props.bsStyle === 'warning',
       'glyphicon-remove': this.props.bsStyle === 'error'
     };
-
-    return this.props.hasFeedback ? (
-      <span className={classSet(classes)} key="icon" />
-    ) : null;
+    return this.props.hasFeedback ? (<span  key="icon" />) : null;
   },
   renderHelp: function () {
     return this.props.help ? (
@@ -130,7 +127,7 @@ var Input = React.createClass({
       'radio': this.props.type === 'radio'
     };
     return (
-      <div className={classSet(classes)} key="checkboxRadioWrapper">
+      <div className="input-group-addon" key="checkboxRadioWrapper">
         {children}
       </div>
     );
@@ -149,7 +146,7 @@ var Input = React.createClass({
     classes[this.props.labelClassName] = this.props.labelClassName;
 
     return this.props.label ? (
-      <label htmlFor={this.props.id} className={classSet(classes)} key="label">
+      <label htmlFor={this.props.id} className="btn-primary" key="label">
         {children}
         {this.props.label}
       </label>
@@ -165,7 +162,7 @@ var Input = React.createClass({
     };
     classes[this.props.groupClassName] = this.props.groupClassName;
     return (
-      <div className={classSet(classes)}>
+      <div className="col-md-9"} style={{ color: 'red', background : 'blue'}}>
         {children}
       </div>
     );
@@ -173,27 +170,13 @@ var Input = React.createClass({
   render: function () {
     if (this.isCheckboxOrRadio()) {
       return this.renderFormGroup(
-        this.renderWrapper([
-          this.renderCheckboxandRadioWrapper(
-            this.renderLabel(
-              this.renderInput()
-            )
-          ),
-          this.renderHelp()
-        ])
+        this.renderWrapper([this.renderCheckboxandRadioWrapper(this.renderLabel(this.renderInput())),this.renderHelp()])
       );
     }
     else {
-      return this.renderFormGroup([
-        this.renderLabel(),
-        this.renderWrapper([
-          this.renderInputGroup(
-            this.renderInput()
-          ),
-          this.renderIcon(),
-          this.renderHelp()
-        ])
-      ]);
+      return this.renderFormGroup(
+        [this.renderLabel(),this.renderWrapper([this.renderInputGroup(this.renderInput()),this.renderIcon(),this.renderHelp()])]
+      );
     }
   }
 });
