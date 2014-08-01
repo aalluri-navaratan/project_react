@@ -20,26 +20,20 @@
 <body>
 <script type="text/jsx">
 /** @jsx React.DOM */
-var Simple = React.createClass({
-  getInitialState: function(){
-    return { count: 0 };
+var NoLink = React.createClass({
+  getInitialState: function() {
+    return {value: 'Hello!'};
   },
-  handleMouseDown: function(e){
-    this.setState({ count: this.state.count + 1},alert('I was told: ' + this.props.message));
+  handleChange: function(event) {
+  alert(event.target.value);
+    this.setState({value: event.target.value});
   },
-  render: function(){
-    var count = this.state.count
-    return <div>
-      <div className="clicker" onMouseDown={this.handleMouseDown}>
-        <b>Give me the message!</b>
-      </div>
-      <div className="message">Message conveyed
-        <span className="count"> {count}</span> time(s)</div>
-    </div>
-    ;
+  render: function() {
+    var value = this.state.value;
+    return <input type="text" value={value} onChange={this.handleChange} />;
   }
 });
-React.renderComponent(<Simple message="Keep it Simple"/>,document.body);
+React.renderComponent(<NoLink/>, mountNode);
 </script>
 </body>
 </html>

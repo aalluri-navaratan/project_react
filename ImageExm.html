@@ -16,15 +16,20 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
 </head>
 <body>
 <script type="text/jsx">
-    /** @jsx React.DOM */
-var button = React.DOM.button({
-  className: "btn btn-sm btn-success",
-  children: "Register"
+    /*** @jsx React.DOM */
+var ImageView = React.createClass({
+    render: function() {
+        return <img alt="Anil Kumar Alluri" className="profile-avatar" height="200" src="https://avatars2.githubusercontent.com/u/7963226?v=1&amp;u=0a198f0893e67f5689e9723e491454fc666fe942&amp;s=140" width="200"></img>
+    }
 });
-React.renderComponent(button,document.body);
+React.renderComponent(<ImageView/>, document.body);
 </script>
 </body>
 </html>
+

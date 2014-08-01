@@ -1,0 +1,57 @@
+@mixin emboss($blur: 3px, $opacity: 0.5, $red: 255, $green:255, $blue:255) {
+  @include box-shadow(2px 1px $blur rgba($red,$green,$blue,$opacity));
+}
+.profile-wrap {
+  position: relative;
+  float: left;
+  margin: 15px auto;
+  width: 200px;
+  hight: 200px;
+  border-radius: 100%;    
+  background-color:none;
+}
+.profile {
+  @include emboss($red: 0, $blue: 0, $green: 0);
+  display:block;
+  height: 180px;
+  width:200px;
+  padding-top:20px;
+  border-radius: 100%;
+  text-align:center;
+  line-height:auto;
+  -webkit-transform: scaleX(-1) ;
+  -moz-transform: scaleX(-1) ;
+  -o-transform:scaleX(-1) ;
+  -ms-transform:scaleX(-1) ;
+  transform:scaleX(-1);
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+   transition: 1s ease-in-out;
+background-image:url('https://avatars3.githubusercontent.com/u/7963226?v=1&amp;s=460');
+  background-size:cover;
+}
+.profile:after {
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+  opacity:5;
+  transform:scaleX(0);
+  content:"";
+}
+  .profile:hover {
+  -webkit-transform: scaleX(1)  ;
+  -moz-transform: scaleX(1) ;
+  -o-transform:scaleX(1) ;
+  -ms-transform:scaleX(1) ;      
+  transform:scaleX(1);
+  background-size:cover;
+  background-image:url('https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xaf1/v/t1.0-9/630_118170235003109_2140345047_n.jpg?oh=e1052ff22df31007a2dc09b8b18c1d8f&amp;oe=54545895&amp;__gda__=1414261938_3f282848d17dbc3dbb4d3f5a37522b2a');
+  background-color:#FF9;
+    }
+ .profile:hover:after {
+  opacity:1;
+  transform:scaleX(1);
+  content:"Anil Kumar.Alluri";
+}
