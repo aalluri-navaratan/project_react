@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Render Method Gotchas</title>
+    <script src="http://fb.me/react-0.11.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/JSXTransformer.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react-with-addons.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/jsx">
+    /*** @jsx React.DOM */
+$(function () { 
+    // from chenglou/react-chosen
+    var Chosen = React.createClass({
+      propTypes: {
+        onChange: React.PropTypes.func,
+        onShowingDropdown: React.PropTypes.func,
+        onHidingDropdown: React.PropTypes.func
+      },
+      getInitialState: function() {
+        return {
+          isDropdownOpen: false
+        };
+      },
+      componentDidUpdate: function() {
+        return this.$().trigger('chosen:updated');
+      },
+      componentDidMount: function() {
+      console.log('hi', this.$());
+        return this.$().chosen({
+          allow_single_deselect: this.props.allowSingleDeselect,
+          disable_search: this.props.disableSearch,
+          disable_search_threshold: this.props.disableSearchThreshold,
+          enable_split_word_search: this.props.enableSplitWordSearch,
+          inherit_select_classes: this.props.inheritSelectClasses,
+          max_selected_options: this.props.maxSelectedOptions,
+          no_results_text: this.props.noResultsText,
+          placeholder_text_multiple: this.props.placeholderTextMultiple,
+          placeholder_text_single: this.props.placeholderTextSingle,
+          search_contains: this.props.searchContains,
+          single_backstroke_delete: this.props.singleBackstrokeDelete,
+          width: this.props.width,
+          display_disabled_options: this.props.displayDisabledOptions,
+          display_selected_options: this.props.displaySelectedOptions
+        }).on({
+          'change': this.handleChange,
+          'chosen:maxselected': this.props.onMaxSelected,
+          'chosen:showing_dropdown': this.onShowingDropdown,
+          'chosen:hiding_dropdown': this.onHidingDropdown
+        });
+      },
+      componentWillUnmount: function() {
+        return this.$().off('chosen:maxselected change');
+      },
+      $: function() {
+        return $(this.refs.select.getDOMNode());
+      },
+      handleChange: function() {
+        console.log('handle change');
+        this.forceUpdate();
+        if (this.props.onChange) {
+          return this.props.onChange.apply(null, arguments);
+        }
+      },
+      onHidingDropdown: function(event) {
+        console.log('hide dropdown');
+        if (this.props.onHidingDropdown) {
+          this.props.onHidingDropdown(event);
+        }
+        return this.setState({
+          isDropdownOpen: false
+        });
+      },
+      onShowingDropdown: function(event) {
+        console.log('show dropdown');
+        if (this.props.onShowingDropdown) {
+          this.props.onShowingDropdown(event);
+        }
+        return this.setState({
+          isDropdownOpen: true
+        });
+      },
+      open: function() {
+        if (!this.state.isDropdownOpen) {
+          return this.$().trigger('chosen:open');
+        }
+      },
+      render: function() {
+        return <div className="Chosen">{this.transferPropsTo(<select ref="select"><option value="0" key="0">0</option><option value="1" key="1">1</option><option value="2" key="2">2</option></select>)}</div>;
+      }
+    });
+    React.renderComponent(<Chosen value="1" searchContains={true} width="50%" />, document.body);
+});
+</script>
+</body>
+</html>

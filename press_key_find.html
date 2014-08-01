@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src="http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+     <script src="http://path/to/react-bootstrap-bower/react-bootstrap.min.js"></script>
+  <style>
+        body{margin: 25px;}
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var KeyLogger = React.createClass({
+  getInitialState: function() {
+    return {
+      upKey: null,
+      upKeyCode: null,
+      pressKey: null,
+      pressKeyCode: null,
+    };
+  },
+  handleKeyUp: function(ev) {
+    this.setState({upKey: ev.key, upKeyCode: ev.keyCode});
+  },
+  handleKeyPress: function(ev) {
+    this.setState({pressKey: ev.key, pressKeyCode: ev.keyCode});
+  },
+  render: function() {
+    return (
+      <div>
+        <input type="text" 
+          onKeyUp={this.handleKeyUp} 
+          onKeyPress={this.handleKeyPress} /><br />
+        <span>{"keyUp key: " + this.state.upKey}</span> <br />
+        <span>{"keyUp keyCode: " + this.state.upKeyCode}</span> <br />
+        <span>{"keyPress key: " + this.state.pressKey}</span> <br />
+        <span>{"keyPress keyCode: " + this.state.pressKeyCode}</span>
+      </div>
+    );
+  }
+});
+React.renderComponent(<KeyLogger />, document.body);
+</script>
+</body>
+</html>

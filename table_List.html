@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Render Method Gotchas</title>
+    <script src="http://fb.me/react-0.11.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/JSXTransformer.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react-with-addons.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="table.css"></link>
+</head>
+<body>
+<script type="text/jsx">
+    /*** @jsx React.DOM */
+var VerticalList = React.createClass({
+  move: function (key) {
+    if(key === "down") {
+      var index = Math.min(this.state.focusIndex + 1, this.props.items.length-1);
+      this.setState({focusIndex: index});
+    } else if(key === "up") {
+      var index = Math.max(this.state.focusIndex - 1, 0);
+      this.setState({focusIndex: index});
+    }
+  },
+  getInitialState: function () {
+    return {focusIndex: 0};
+  },
+  render: function () {
+    var self = this;
+    var items = this.props.items.map(function (name, i) {
+      var focused = self.props.focused && self.state.focusIndex === i;
+      if(focused) {
+        return <li className="focused">{name}</li>
+      } else {
+        return <li>{name}</li>
+      }
+    });
+
+    return <ul>
+      {items}
+    </ul>
+  }
+})
+var App = React.createClass({
+  getInitialState: function () {
+    return {focusItem: "A"};
+  },
+  move: function (key) {
+    var fi = this.state.focusItem;
+    if(key === "right" && fi === "A") {
+      this.setState({focusItem: "B"});
+    } else if(key === "left" && fi === "B") {
+      this.setState({focusItem: "A"});
+    } else {
+      // find focused child to send event to
+      for(var refName in this.refs) {
+        var ref = this.refs[refName];
+        if(ref.props.focused) { ref.move(key); } 
+      }
+    }
+  },
+  render: function () {
+    var aFocused = this.state.focusItem === "A"
+    return <div>
+      <VerticalList ref="A" focused={aFocused} items={[1, 2, 3, 4, 5]}/>
+      <VerticalList ref="B" focused={!aFocused} items={[6, 7, 8, 9, 10]}/>
+    </div>
+  }
+})
+var app = <App/>;
+React.renderComponent(app, document.body);
+// Send key events to application
+document.body.addEventListener("keydown", function (event) {
+  var keyMap = { 40: "down", 38: "up", 37: "left", 39: "right" };
+  var key = keyMap[event.keyCode];
+  app.move(key);
+}, false);
+</script>
+</body>
+</html>

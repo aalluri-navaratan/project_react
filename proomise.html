@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Render Method Gotchas</title>
+    <script src="http://fb.me/react-0.11.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.11.1.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/JSXTransformer.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.11.0/react-with-addons.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/jsx">
+    /*** @jsx React.DOM */
+const PENDING   = 0;
+const FULFILLED = 1;
+const REJECTED  = 2;
+function PromiseState(component, initial) {
+    this._component = component;
+    this.value = initial;
+    this.pending = false;
+    this.fulfilled = true;
+    this.rejected = false;
+    this.settled = true;
+    this._setState = function(nextState, val) {
+        if(!this._component.isMounted()) {
+            return;
+        }
+        switch(nextState) {
+            case PENDING:
+                this.promise = val;
+                this.pending   = true;
+                this.fulfilled = false;
+                this.rejected  = false;
+                this.settled   = false;
+                break;
+            case FULFILLED:
+                this.value = val;
+                this.pending   = false;
+                this.fulfilled = true;
+                this.rejected  = false;
+                this.settled   = true;
+                break;
+            case REJECTED:
+                this.reason = val;
+                this.pending   = false;
+                this.fulfilled = false;
+                this.rejected  = true;
+                this.settled   = true;
+                break
+        }
+        this._component.setState({});
+    };
+    this.setPromise = function(nextPromise) {
+        var ref = this._ref = Math.random();
+        this._setState(PENDING, nextPromise);
+        var self = this;
+        $.when(nextPromise)
+        .then(function(value) {
+            if (ref === self._ref) {
+                self._setState(FULFILLED, value);
+            }
+        }, function(reason) {
+            if (ref === self._ref) {
+                self._setState(REJECTED, reason);
+            }
+        });
+    };
+}
+// Renders all of an objects props out into an unordered list.
+// Useful for debugging.
+var PropertyList = React.createClass({
+    render: function() {
+        var self = this;
+        var items = Object.keys(this.props.obj).map(function(key) {
+            return <li><b>{key}</b>: {String(self.props.obj[key])}</li>;
+        });
+        return <ul>{items}</ul>;
+    }
+});
+// Return random integer between 1 and 5
+var randint = function() {
+    return Math.floor(Math.random() * 5) + 1
+}
+var TestComponent = React.createClass({
+    getInitialState: function() {
+        return {
+            testState: new PromiseState(this, 'initial value')
+        };
+    },
+    handleClick: function() {
+        var dfd = $.Deferred();
+
+        setTimeout(function() {
+            dfd.resolve('fulfilled!!!');
+        }, randint()*1000);
+
+        setTimeout(function() {
+            dfd.reject('rejected :(');
+        }, randint()*1000);
+
+        this.state.testState.setPromise(dfd.promise());
+    },
+    render: function() {
+        return (
+            <div>
+                <h1>PromiseState Test</h1>
+                <button onClick={this.handleClick}>Update Promise!</button>
+                <PropertyList obj={this.state.testState} />
+            </div>
+        );
+    }
+});
+React.renderComponent(<TestComponent/>, document.body);
+</script>
+</body>
+</html>

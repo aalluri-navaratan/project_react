@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src="http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+     <script src="http://path/to/react-bootstrap-bower/react-bootstrap.min.js"></script>
+  <style>
+        body{margin: 25px;}
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var TodoList1 = React.createClass({
+  render: function() {
+    var createItem = function(item) {
+      return <li>{item.text}</li>;
+    };
+    return <ul>{this.props.items.map(createItem)}</ul>;
+  }
+});
+var TodoApp1 = React.createClass({
+  getInitialState: function() {
+    return {items: [], text: ""};
+  },
+  onChange: function(e) {
+    this.setState({text: e.target.value});
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    if (this.state.text) {
+      var nextItems = this.state.items.concat([{
+        text: this.state.text
+      }]);
+      this.setState({
+        items: nextItems,
+        text: ""
+      });
+    }
+  },
+  render: function() {
+    return (
+      <div>
+        <TodoList1 items={this.state.items} />
+        <form onSubmit={this.handleSubmit}>
+          <input onChange={this.onChange} value={this.state.text} />
+          <button>{"Add -> " + (this.state.items.length + 1)}</button>
+        </form>
+      </div>
+    );
+  }
+});
+React.renderComponent(<TodoApp1 />, document.body);
+</script>
+</body>
+</html>

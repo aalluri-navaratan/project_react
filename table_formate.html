@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transferPropsTo</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
+    <script src="http://fb.me/react-0.10.0.js"></script>
+    <script src="http://fb.me/react-with-addons-0.10.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script> 
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+     <script src="http://path/to/react-bootstrap-bower/react-bootstrap.min.js"></script>
+  <style>
+            .added {
+                -webkit-animation: highlight .4s;
+                animation: highlight .4s;
+            }
+            .added2 {
+                -webkit-animation: highlight2 .4s;
+                animation: highlight2 .4s;
+            }
+            /* Chrome, Safari, Opera */
+            @-webkit-keyframes highlight {
+                0% {background: #BBFFFF;}
+            }
+            /* Standard syntax */
+            @keyframes highlight {
+                0% {background: #BBFFFF;}
+            }
+            /* Chrome, Safari, Opera */
+            @-webkit-keyframes highlight2 {
+                0% {background: #BBFFFF;}
+            }
+            /* Standard syntax */
+            @keyframes highlight2 {
+                0% {background: #BBFFFF;}
+            }
+            .table{
+                margin-bottom: 0px;
+            }
+      <div style="display: -webkit-box;">
+            <p id="rdatable" style="-webkit-box-flex:15.0; box-sizing:border-box;  overflow-x:scroll;" >
+            </p>
+            <p class="rdascroll" style="-webkit-box-flex:1.0; box-sizing:border-box; min-width:20px; max-width:20px;" id="rdascroll"></p>
+        </div>
+  </style>
+</head>
+<body>
+<script type="text/jsx">
+/** @jsx React.DOM */
+var selectedTable = "";
+var viewports = {};
+var rows = [];
+var cols = [];
+var vpsize = 28;
+var datum = React.createClass(
+{
+    getInitialState: function() {
+        this.oldid = "";
+        return {shown: false};
+    },
+
+    // toggle: function() {
+    //     this.setState({shown: !this.state.shown});
+    // },
+    componentWillReceiveProps: function(nextProps) {
+        if(this.oldid!=this.props.stateid){
+            this.oldid = this.props.stateid;
+            this.setState({shown:!this.state.shown});
+        } else
+        {
+            this.oldid = this.props.stateid;
+        }
+    },
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return (!_.isEqual(nextProps.stateid,this.props.stateid) || !_.isEqual(nextState,this.state));
+    },
+    render: function() {
+        var cx = React.addons.classSet;
+        var classes = cx({
+            'rdaTable-cell': true,
+            'added': !this.state.shown && !this.props.scroll,
+            'added2': this.state.shown && !this.props.scroll
+        });
+        return React.DOM.td( {className: classes}, 
+                    React.DOM.div( {className: "td-overflow"},  
+                        this.props.stateid
+                    )
+                );
+    }
+
+});
+function check(nextProps, nextState, props, state) {
+    return (!_.isEqual(nextProps,props) || !_.isEqual(nextState,state))
+}
+var tr = React.createClass(
+{
+    getInitialState: function() 
+    {
+        return { };
+    },
+    shouldComponentUpdate: function(nextProps, nextState) {
+        // var ans = setTimeout(function(){
+        //  return check(nextProps,nextState, this.props, this.state);
+        // }, 20);
+        return (!_.isEqual(nextProps.rowdata,this.props.rowdata) || !_.isEqual(nextState,this.state))
+    },
+
+    render: function()
+    {   
+        var rowdata = this.props.rowdata;
+        var scroll = this.props.scroll;
+        return React.DOM.tr( {className: "rdaTable-row"}, rowdata.map(function(dat)
+                {
+                    return datum({stateid:dat, scroll: scroll}, null);
+                }));
+    }
+}
+);
+var th = React.createClass(
+{
+    getInitialState: function() 
+    {
+        return { };
+    },
+
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return (!_.isEqual(nextProps,this.props) || !_.isEqual(nextState,this.state));
+    },
+
+    render: function()
+    {
+        var cols = this.props.cols;
+        return React.DOM.tr( {className: "rdaTable-columnlabels"}, cols.map(function(col)
+                        {
+                            return ( 
+                                    
+                                React.DOM.th( {className: "rdaTable-columnlabels"}, 
+                                    React.DOM.div( {className: "th-overflow"}, col.Name)
+                                ));
+                        }));
+    }
+});
+var tablescroll = false;
+var rdaTable = React.createClass(
+{
+    getInitialState: function() 
+    {
+        this.props.scroll = false;
+        return { data: this.props.data, cols: this.props.cols };
+    },
+    componentWillUpdate: function (nextProps, nextState){
+        this.props.scroll = tablescroll;
+    },
+    render: function () 
+    {
+        var tableclass = "rdaTable table table-bordered table-hover table-condensed table-striped resizable draggable";
+        var data = this.state.data;
+        var cols = this.state.cols;
+        var scroll = this.props.scroll;
+        
+        if ( data != undefined )
+        {   
+            return (
+                React.DOM.table( {className: tableclass}, [0,1].map( function (k)
+                {
+
+                    if( k == 0 )
+                    {
+                        return (React.DOM.thead(null, th({cols: cols}, null)));
+                    }
+
+                    else if( k == 1 )
+                    {
+                        return ( React.DOM.tbody(null, Object.keys( data ).map( function (key) 
+                        {
+                            return tr( {key: data[key].id, rowdata: data[key].row.Fields.slice(), scroll: scroll}, null);
+                        })));
+                    }   
+
+                }))
+            );
+        }
+        else
+        {
+            return React.DOM.table( {className: tableclass }, React.DOM.thead( null, React.DOM.tr(null, React.DOM.th(null, "loading"))));
+        }
+    },
+    update: function(data, cols)
+    {
+        this.setState({data: data, cols: cols});
+    }
+});
+var Table = React.renderComponent(
+    rdaTable(),
+    rdatable
+); //initializes rdatable with data and loads it onto rdatable node in html
+var scrollbar = function(id) 
+{
+    this.position = 0;
+    this.rowheight = 25;
+    this.minbarsize = 10;
+    this.barid = id;
+};
+scrollbar.prototype.drawBar = function()
+{
+    console.log(this.barid);
+    if(!this.bararea){
+        this.bararea = $("#"+this.barid);
+    }
+    this.gridHeight = this.bararea.height();
+    this.numrows = parseInt(this.gridHeight/this.rowheight);
+    this.totalitems = 1000;
+    if(this.numrows>this.totalitems){
+        this.numrows = this.totalitems;
+    }
+    var b = this.gridHeight - this.totalitems + this.numrows;
+    //height of scrollbar
+    if(b>this.minbarsize){
+        this.barsize = Math.round(b);
+    }else{
+        this.barsize = this.minbarsize;
+    }
+    //number of rows hopped per scroll
+    this.barstep = Math.round(parseInt(this.totalitems-this.gridHeight/this.rowheight)/(this.gridHeight-this.barsize));
+    this.bararea.html("<div class='scrollbar' style='height:"+this.barsize+"px; background: #888;'></div>");
+    this.scrollbar = this.bararea.find('.scrollbar');
+    var barstep = this.barstep;
+    var scroll = this;
+    var table = this.table;
+    var bararea = this.bararea;
+    this.scrollbar.draggable({ 
+        containment:"parent",
+        axis: "y",
+        start: function( event, ui ) {
+            tablescroll = true;
+            scroll.interval = setInterval(updateScroll, 50);
+            function updateScroll(){
+                scroll.changePosition((scroll.scrollbar.offset().top-bararea.offset().top)*barstep);
+            }
+        },
+        stop: function(){
+            clearInterval(scroll.interval);
+            scroll.changePosition((scroll.scrollbar.offset().top-bararea.offset().top)*barstep);
+            tablescroll = false;
+        }
+    });
+    if(barstep<0){
+        barstep = 0;
+        this.position = 0;
+    }
+    if(barstep>0){
+        this.scrollbar.css('top', this.from/barstep+'px');
+        this.position = this.from;
+    }
+};
+//add Change Table function, save position object with table-position, move bar appropriately, change size appropriately
+scrollbar.prototype.pageUp = function()
+{
+    this.changePosition(this.position-vpsize+1);
+    // this.scrollbar.css('top', (this.position-this.numrows+1)/this.barstep);
+};
+scrollbar.prototype.pageDown = function()
+{
+    this.changePosition(this.position+vpsize-1);
+    // this.scrollbar.css('top', (this.position+this.numrows-1)/this.barstep);
+};
+scrollbar.prototype.pageUpThree = function()
+{
+    this.changePosition(this.position-3);
+    // this.scrollbar.css('top', (this.position-3)/this.barstep);
+};
+scrollbar.prototype.pageDownThree = function()
+{
+    this.changePosition(this.position+3);
+    // this.scrollbar.css('top', (this.position+3)/this.barstep);
+};
+scrollbar.prototype.changePosition = function(position)
+{
+    //change Viewport function dummy
+    dummyupdate();
+    this.position = position;
+};
+var sb = new scrollbar( "rdascroll" );
+var data = {};
+for(i=0; i<30; i++){
+    data[i] = {};
+    data[i]["row"] = {};
+    data[i]["row"]["Fields"]= [];
+    for(j=0; j<50; j++){
+        data[i].row.Fields[j] = Math.random();
+    }
+}
+function dummyupdate(){
+    for(i=0; i<30; i++){
+        for(j=0; j<50; j++){
+            data[i].row.Fields[j] = Math.random();
+        }
+    }
+    
+    for(i=0; i<30; i++){
+       cols[i] = {};
+       cols[i].Name="hi";
+    }
+    this.setTimeout(function(){Table.update(data, cols);},30);
+}
+function dummyupdatecolumns(){
+    for(i=0; i<30; i++){
+        j = Math.floor((Math.random() * 10) + 1);
+            data[i].row.Fields[j] = Math.random();
+    }
+    for(i=0; i<30; i++){
+       cols[i] = {};
+       cols[i].Name="hi";
+    }
+    this.setTimeout(function(){Table.update(data, cols);},30);
+}
+$(document).ready(function()
+{
+    dummyupdate();
+    setTimeout(sb.drawBar.bind(sb), 2000);
+});
+</script>
+</body>
+</html>

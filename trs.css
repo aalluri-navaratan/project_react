@@ -1,0 +1,30 @@
+.Modal {
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  width: 19%;
+  height: 34%;
+  text-align: center;
+  background:#9BDA60;
+  opacity:0.7;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.Modal-enter {
+  opacity: 0.01;
+  -webkit-transition: all 4s ease;
+  transition: all 4s ease;
+}
+.Modal-enter.Modal-enter-active {
+  opacity: 0.5;
+}
+.Modal-leave {
+  opacity: 0.5;
+  -webkit-transition: all 4s ease;
+  transition: all 4s ease;
+}
+.Modal-leave.Modal-leave-active {
+  opacity: 0.01;
+}
