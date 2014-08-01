@@ -1,5 +1,4 @@
 /*** @jsx React.DOM */
-
 var tableMainReact =
     React.createClass({
         render: function() {
@@ -10,7 +9,6 @@ var tableMainReact =
                 ); // end return
         } //end render
     }); //end tableMainReact
-
 React.renderComponent(
     <tableMainReact/>,
     document.getElementById('table')

@@ -1,5 +1,4 @@
 /*** @jsx React.DOM */
-
 var headerMainReact =
     React.createClass({
         render: function() {

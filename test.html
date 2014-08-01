@@ -81,7 +81,6 @@ var Input = React.createClass({
         var className = this.isCheckboxOrRadio() ? '' : 'form-control';
         input = <input className={className} ref="input" key="input" />;
     }
-
     return this.transferPropsTo(input);
   },
   renderInputGroup: function (children) {
